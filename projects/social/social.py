@@ -107,16 +107,12 @@ class SocialGraph:
         q = Queue()
         q.enqueue(path)
 
-        visited[user_id] = []
         # Need a while loop
         while q.size():
             current_path = q.dequeue()
 
             current_vertex = current_path[-1]
 
-            if current_vertex == user_id:
-                visited[current_vertex] = current_path
-            
             if current_vertex not in visited:
                 visited[current_vertex] = []
                 neighbors = self.friendships[current_vertex]
@@ -125,6 +121,9 @@ class SocialGraph:
                    neighbor_path.append(neighbor)
                    q.enqueue(neighbor_path)
         
+            if current_vertex == user_id:
+                visited[current_vertex] = current_path
+
         return visited
 
 
@@ -132,5 +131,5 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
     print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
