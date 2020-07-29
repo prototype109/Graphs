@@ -29,6 +29,7 @@ class SocialGraph:
     def __init__(self):
         self.last_id = 0
         self.users = {}
+        # self.friendships = {}
         self.friendships = {}
 
     def add_friendship(self, user_id, friend_id):
@@ -114,22 +115,19 @@ class SocialGraph:
             current_vertex = current_path[-1]
 
             if current_vertex not in visited:
-                visited[current_vertex] = []
+                visited[current_vertex] = current_path
                 neighbors = self.friendships[current_vertex]
                 for neighbor in neighbors:
                    neighbor_path = current_path[:]
                    neighbor_path.append(neighbor)
                    q.enqueue(neighbor_path)
-        
-            if current_vertex == user_id:
-                visited[current_vertex] = current_path
 
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(1000, 5)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
